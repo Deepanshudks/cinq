@@ -1,117 +1,665 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { Check, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, Check, Mail, MessageSquare, Phone, User, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const [sent, setSent] = useState(false);
+  const navigate = useNavigate();
+
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
 
   useEffect(() => {
     if (!open) return;
 
-    const close = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", close);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", close);
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (!open) {
+      setSubmitted(false);
+      setLoading(false);
+    }
+  }, [open]);
+
   if (!open) return null;
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (event.currentTarget.reportValidity()) {
-      setSent(true);
+    if (loading) return;
+
+    const form = event.currentTarget;
+
+    if (!form.reportValidity()) return;
+
+    try {
+      setLoading(true);
+
+      const sheetForm = new URLSearchParams();
+
+      sheetForm.append("name", formData.name);
+      sheetForm.append("email", formData.email);
+      sheetForm.append("phone", formData.phone);
+      sheetForm.append("message", formData.message);
+
+      const sheetPromise = fetch(import.meta.env.VITE_GOOGLE_SHEET_URL!, {
+        method: "POST",
+        body: sheetForm,
+        mode: "no-cors",
+      });
+
+      const apiPromise = fetch(import.meta.env.VITE_EMAIL_API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      await Promise.all([sheetPromise, apiPromise]);
+
+      setSubmitted(true);
+
+      await navigate({
+        to: "/thank-you",
+      });
+
+      window.setTimeout(() => {
+        onClose();
+      }, 2000);
+    } catch (error) {
+      console.error("CINQ enquiry submission failed:", error);
+
+      toast.error("Failed to send enquiry. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div
-      className="fixed inset-0 z-110 grid place-items-center bg-charcoal/80 p-4"
+      className="
+        fixed inset-0 z-110
+        flex items-center justify-center
+        bg-deep-burgundy/90
+        p-4
+        sm:p-6
+      "
       role="dialog"
       aria-modal="true"
       aria-labelledby="enquiry-title"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
     >
-      <div className="relative max-h-[92vh] w-full max-w-2xl overflow-y-auto bg-ivory p-7 text-charcoal shadow-2xl sm:p-12">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute right-4 top-4"
+      <div
+        className="
+          relative
+          w-full
+          max-w-270
+          max-h-[94vh]
+          overflow-hidden
+          border
+          border-champagne/20
+          bg-deep-burgundy
+          text-ivory
+          shadow-[0_25px_70px_rgba(0,0,0,0.5)]
+        "
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <div
+          className="
+            absolute
+            left-0
+            right-0
+            top-0
+            z-50
+            h-px
+            bg-linear-to-r
+            from-transparent
+            via-champagne
+            to-transparent
+          "
+        />
+
+        <button
+          type="button"
           onClick={onClose}
           aria-label="Close enquiry"
+          className="
+            group
+            absolute
+            right-5
+            top-5
+            z-50
+            flex
+            size-10
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-champagne/15
+            bg-deep-burgundy/80
+            text-ivory/50
+            transition-colors
+            duration-300
+            hover:border-champagne/50
+            hover:bg-wine
+            hover:text-champagne
+          "
         >
-          <X />
-        </Button>
+          <X
+            className="
+              size-4
+              transition-transform
+              duration-200
+              group-hover:rotate-90
+            "
+          />
+        </button>
 
-        {sent ? (
-          <div className="py-16 text-center">
-            <Check className="mx-auto mb-6 size-10 text-primary" />
+        <div
+          className="
+            grid
+            max-h-[94vh]
+            overflow-y-auto
+          "
+        >
+          <section
+            className="
+              relative
+              bg-burgundy/60
+              px-7
+              py-10
+              
+            "
+          >
+            <div
+              className="
+                pointer-events-none
+                absolute
+                right-0
+                top-0
+                h-72
+                w-72
+                rounded-full
+                bg-champagne/2.5
+              "
+            />
 
-            <p className="eyebrow">Enquiry prepared</p>
+            {submitted ? (
+              <div
+                className="
+                  relative
+                  z-10
+                  flex
+                  min-h-140
+                  flex-col
+                  items-center
+                  justify-center
+                  text-center
+                "
+              >
+                <div
+                  className="
+                    relative
+                    flex
+                    size-24
+                    items-center
+                    justify-center
+                  "
+                >
+                  <div
+                    className="
+                      absolute
+                      inset-0
+                      rounded-full
+                      border
+                      border-champagne/25
+                    "
+                  />
 
-            <h2 id="enquiry-title" className="display-title mt-4 text-5xl">
-              Thank you
-            </h2>
+                  <div
+                    className="
+                      absolute
+                      inset-3
+                      rounded-full
+                      border
+                      border-warm-gold/20
+                    "
+                  />
 
-            <p className="mx-auto mt-5 max-w-md text-muted-foreground">
-              Your details have been validated. Our team will get in touch with you to arrange your
-              private presentation.
-            </p>
+                  <Check className="size-7 text-champagne" />
+                </div>
 
-            <Button size="lg" className="mt-8" onClick={onClose}>
-              Close
-            </Button>
-          </div>
-        ) : (
-          <>
-            <p className="eyebrow">CINQ by Raghava</p>
+                <p className="eyebrow mt-9 text-champagne/70">Enquiry received</p>
 
-            <h2 id="enquiry-title" className="display-title mt-3 text-5xl">
-              Book a Visit
-            </h2>
+                <h2 className="display-title mt-4 text-5xl text-ivory sm:text-6xl">Thank you.</h2>
 
-            <p className="mt-4 text-sm text-muted-foreground">
-              Share your preferences and our team will help arrange your private presentation at
-              CINQ.
-            </p>
+                <p
+                  className="
+                    mx-auto
+                    mt-5
+                    max-w-sm
+                    text-[12px]
+                    leading-7
+                    text-ivory/45
+                  "
+                >
+                  Your details have been received. Our private client team will be in touch shortly
+                  to arrange your presentation.
+                </p>
 
-            <form onSubmit={submit} className="mt-9 grid gap-5 sm:grid-cols-2">
-              <label>
-                Full Name
-                <input required name="name" autoComplete="name" />
-              </label>
-
-              <label>
-                Phone Number
-                <input
-                  required
-                  name="phone"
-                  type="tel"
-                  autoComplete="tel"
-                  pattern="[0-9+() -]{8,}"
+                <div
+                  className="
+                    mt-9
+                    h-px
+                    w-12
+                    bg-champagne/50
+                  "
                 />
-              </label>
 
-              <label className="sm:col-span-2">
-                Email
-                <input required name="email" type="email" autoComplete="email" />
-              </label>
+                <Button variant="luxury" size="lg" className="mt-9 min-w-36" onClick={onClose}>
+                  Close
+                </Button>
+              </div>
+            ) : (
+              <form
+                onSubmit={handleSubmit}
+                className="
+                  relative
+                  z-10
+                  grid
+                  gap-2
+                "
+              >
+                <div className="pr-10">
+                  <p
+                    className="
+                      text-[8px]
+                      font-semibold
+                      uppercase
+                      tracking-[0.3em]
+                      text-champagne/70
+                    "
+                  >
+                    Begin your conversation
+                  </p>
 
-              <label className="sm:col-span-2">
-                Message
-                <textarea name="message" rows={3} />
-              </label>
+                  <h3
+                    id="enquiry-title"
+                    className="
+                      display-title
+                      mt-5
+                      text-[2.8rem]
+                      font-light
+                      leading-[0.9]
+                      tracking-tight
+                      text-ivory
+                      sm:text-[3.2rem]
+                    "
+                  >
+                    Request a private
+                    <br />
+                    <em className="font-normal text-champagne">presentation.</em>
+                  </h3>
 
-              <Button variant="luxury" size="lg" className="sm:col-span-2" type="submit">
-                Request a Private Visit
-              </Button>
-            </form>
-          </>
-        )}
+                  <p
+                    className="
+                      mt-6
+                      max-w-md
+                      text-[11px]
+                      leading-6
+                      text-ivory/40
+                    "
+                  >
+                    Tell us a little about yourself and our team will curate your CINQ experience.
+                  </p>
+                </div>
+
+                <div className="mt-2 grid gap-2">
+                  <div className="grid gap-7 sm:grid-cols-2">
+                    <label className="group">
+                      <span
+                        className="
+                          text-[8px]
+                          font-semibold
+                          uppercase
+                          tracking-[0.22em]
+                          text-warm-gold/60
+                          transition-colors
+                          group-focus-within:text-champagne
+                        "
+                      >
+                        Full Name
+                      </span>
+
+                      <div className="relative mt-3">
+                        <User
+                          className="
+                            absolute
+                            left-0
+                            top-1/2
+                            size-3.5
+                            -translate-y-1/2
+                            text-warm-gold/45
+                            transition-colors
+                            group-focus-within:text-champagne
+                          "
+                        />
+
+                        <input
+                          required
+                          name="name"
+                          type="text"
+                          autoComplete="name"
+                          value={formData.name}
+                          onChange={(event) =>
+                            setFormData((current) => ({
+                              ...current,
+                              name: event.target.value,
+                            }))
+                          }
+                          placeholder="Your full name"
+                          className="
+                            w-full
+                            border-0
+                            border-b
+                            border-champagne/15
+                            bg-transparent
+                            py-3
+                            pl-7
+                            pr-2
+                            text-[13px]
+                            text-ivory
+                            outline-none
+                            transition-colors
+                            duration-200
+                            placeholder:text-ivory/25
+                            focus:border-champagne
+                          "
+                        />
+                      </div>
+                    </label>
+
+                    <label className="group">
+                      <span
+                        className="
+                          text-[8px]
+                          font-semibold
+                          uppercase
+                          tracking-[0.22em]
+                          text-warm-gold/60
+                          transition-colors
+                          group-focus-within:text-champagne
+                        "
+                      >
+                        Phone Number
+                      </span>
+
+                      <div className="relative mt-3">
+                        <Phone
+                          className="
+                            absolute
+                            left-0
+                            top-1/2
+                            size-3.5
+                            -translate-y-1/2
+                            text-warm-gold/45
+                            transition-colors
+                            group-focus-within:text-champagne
+                          "
+                        />
+
+                        <input
+                          required
+                          name="phone"
+                          type="tel"
+                          autoComplete="tel"
+                          pattern="[0-9+() -]{8,}"
+                          value={formData.phone}
+                          onChange={(event) =>
+                            setFormData((current) => ({
+                              ...current,
+                              phone: event.target.value,
+                            }))
+                          }
+                          placeholder="Your phone number"
+                          className="
+                            w-full
+                            border-0
+                            border-b
+                            border-champagne/15
+                            bg-transparent
+                            py-3
+                            pl-7
+                            pr-2
+                            text-[13px]
+                            text-ivory
+                            outline-none
+                            transition-colors
+                            duration-200
+                            placeholder:text-ivory/25
+                            focus:border-champagne
+                          "
+                        />
+                      </div>
+                    </label>
+                  </div>
+
+                  <label className="group">
+                    <span
+                      className="
+                        text-[8px]
+                        font-semibold
+                        uppercase
+                        tracking-[0.22em]
+                        text-warm-gold/60
+                        transition-colors
+                        group-focus-within:text-champagne
+                      "
+                    >
+                      Email Address
+                    </span>
+
+                    <div className="relative mt-3">
+                      <Mail
+                        className="
+                          absolute
+                          left-0
+                          top-1/2
+                          size-3.5
+                          -translate-y-1/2
+                          text-warm-gold/45
+                          transition-colors
+                          group-focus-within:text-champagne
+                        "
+                      />
+
+                      <input
+                        required
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        value={formData.email}
+                        onChange={(event) =>
+                          setFormData((current) => ({
+                            ...current,
+                            email: event.target.value,
+                          }))
+                        }
+                        placeholder="Your email address"
+                        className="
+                          w-full
+                          border-0
+                          border-b
+                          border-champagne/15
+                          bg-transparent
+                          py-3
+                          pl-7
+                          pr-2
+                          text-[13px]
+                          text-ivory
+                          outline-none
+                          transition-colors
+                          duration-200
+                          placeholder:text-ivory/25
+                          focus:border-champagne
+                        "
+                      />
+                    </div>
+                  </label>
+
+                  <label className="group">
+                    <span
+                      className="
+                        text-[8px]
+                        font-semibold
+                        uppercase
+                        tracking-[0.22em]
+                        text-warm-gold/60
+                        transition-colors
+                        group-focus-within:text-champagne
+                      "
+                    >
+                      Message
+                    </span>
+
+                    <div className="relative mt-3">
+                      <MessageSquare
+                        className="
+                          absolute
+                          left-0
+                          top-2
+                          size-3.5
+                          text-warm-gold/45
+                          transition-colors
+                          group-focus-within:text-champagne
+                        "
+                      />
+
+                      <textarea
+                        name="message"
+                        rows={3}
+                        value={formData.message}
+                        onChange={(event) =>
+                          setFormData((current) => ({
+                            ...current,
+                            message: event.target.value,
+                          }))
+                        }
+                        placeholder="Tell us how we can assist you"
+                        className="
+                          w-full
+                          resize-none
+                          border-0
+                          border-b
+                          border-champagne/15
+                          bg-transparent
+                          py-2
+                          pl-7
+                          pr-2
+                          text-[13px]
+                          leading-6
+                          text-ivory
+                          outline-none
+                          transition-colors
+                          duration-200
+                          placeholder:text-ivory/25
+                          focus:border-champagne
+                        "
+                      />
+                    </div>
+                  </label>
+                </div>
+
+                <Button
+                  variant="luxury"
+                  size="lg"
+                  className="
+                    group
+                    relative
+                    mt-2
+                    h-14
+                    w-full
+                    overflow-hidden
+                    border
+                    border-champagne
+                    bg-champagne
+                    text-burgundy
+                    transition-colors
+                    duration-200
+                    hover:bg-burgundy
+                    hover:text-champagne
+                  "
+                  type="submit"
+                  disabled={loading}
+                >
+                  <span
+                    className="
+                      relative
+                      z-10
+                      flex
+                      items-center
+                      justify-center
+                      gap-4
+                    "
+                  >
+                    {loading ? "Sending..." : "Request a Private Visit"}
+
+                    {!loading && (
+                      <ArrowRight
+                        className="
+                          size-4
+                          transition-transform
+                          duration-200
+                          group-hover:translate-x-1
+                        "
+                      />
+                    )}
+                  </span>
+                </Button>
+
+                <p
+                  className="
+                    -mt-2
+                    text-center
+                    text-[8px]
+                    leading-5
+                    text-ivory/25
+                  "
+                >
+                  By submitting this form, you agree to be contacted regarding CINQ by Raghava.
+                </p>
+              </form>
+            )}
+          </section>
+        </div>
       </div>
     </div>
   );

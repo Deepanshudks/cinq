@@ -12,6 +12,7 @@ import oasis from "./oasis.webp";
 import oasisLife from "./oasis-life.webp";
 import oasisPlan from "./oasis-plan.webp";
 import sky from "./sky.webp";
+import sky2 from "./sky.jpg";
 import skyLife from "./sky-life.webp";
 import architecture from "./architecture.webp";
 import clubReception from "./club-reception.webp";
@@ -22,6 +23,7 @@ import clubGuest from "./club-guest.webp";
 import clubFitness from "./club-fitness.webp";
 import clubWellness from "./club-wellness.webp";
 import clubTerrace from "./club-terrace.webp";
+import cinqTower from "./cinq-tower.jpeg";
 
 import floorPlansPdf from "./floor-plans.pdf";
 
@@ -46,7 +48,9 @@ export const images = {
   oasisLife,
   oasisPlan,
   sky,
+  sky2,
   skyLife,
+  cinqTower,
   architecture,
   clubReception,
   clubSocial,
