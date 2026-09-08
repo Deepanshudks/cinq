@@ -1027,11 +1027,19 @@ export function CinqExperience() {
               </div>
 
               <div className="flex flex-col gap-3 text-[10px] uppercase tracking-[.14em] text-ivory/55 lg:min-w-40 lg:items-end">
-                <Link to="/privacy-policy" className="transition-colors hover:text-champagne">
+                <Link
+                  target="_blank"
+                  to="/privacy-policy"
+                  className="transition-colors hover:text-champagne"
+                >
                   Privacy Policy
                 </Link>
 
-                <Link to="/terms-and-conditions" className="transition-colors hover:text-champagne">
+                <Link
+                  target="_blank"
+                  to="/terms-and-conditions"
+                  className="transition-colors hover:text-champagne"
+                >
                   Terms &amp; Conditions
                 </Link>
               </div>

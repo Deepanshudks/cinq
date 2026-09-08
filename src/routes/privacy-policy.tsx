@@ -1,83 +1,119 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/privacy-policy")({
   head: () => ({
     meta: [
-      { title: "Privacy Policy | Brigade Gateway Neopolis" },
+      { title: "Privacy Policy | CINQ by Raghava" },
       {
         name: "description",
         content:
-          "Privacy policy for the Brigade Gateway Neopolis informational website managed by Mojo Realty.",
+          "Privacy policy for the CINQ by Raghava informational website managed by Mojo Realty.",
       },
-      { property: "og:title", content: "Privacy Policy | Brigade Gateway Neopolis" },
+      {
+        property: "og:title",
+        content: "Privacy Policy | CINQ by Raghava",
+      },
       {
         property: "og:description",
         content:
-          "Privacy policy for the Brigade Gateway Neopolis informational website managed by Mojo Realty.",
+          "Privacy policy for the CINQ by Raghava informational website managed by Mojo Realty.",
       },
     ],
   }),
   component: PrivacyPolicy,
 });
 
-function PrivacyPolicy() {
+export default function PrivacyPolicy() {
   return (
-    <LegalPage title="Privacy Policy" eyebrow="Brigade Gateway Neopolis">
-      <p>
-        Mojo Realty respects your privacy. Information shared through this website, including your
-        name, phone number, email address and preferences, is used to respond to your enquiry and
-        coordinate a project presentation.
-      </p>
-      <p>
-        We do not sell your personal information. Your enquiry may be shared with the authorised
-        sales team handling Brigade Gateway Neopolis so they can respond to your request.
-      </p>
-      <p>
-        By submitting a form, you confirm that the details provided are accurate and that you
-        consent to being contacted about this project. You may request that we stop contacting you
-        at any time.
-      </p>
-      <p>
-        This informational website may be updated as project information changes. Please contact the
-        sales representative for the latest details.
-      </p>
-    </LegalPage>
+    <main className="min-h-screen bg-ivory text-ink">
+      {/* Header */}
+      <section className="border-b border-ink/10 bg-midnight px-6 py-8 text-ivory lg:px-10">
+        <div className="mx-auto max-w-360">
+          <p className="eyebrow mb-3 text-champagne">CINQ by Raghava</p>
+
+          <h1 className="display-title text-4xl font-light leading-none sm:text-5xl">
+            Privacy Policy
+          </h1>
+
+          <div className="mt-4 h-px w-16 bg-champagne/60" />
+
+          <p className="mt-5 max-w-3xl text-sm leading-7 text-ivory/55 sm:text-base sm:leading-8">
+            This Privacy Policy explains how information is collected, used and protected when you
+            interact with this website.
+          </p>
+        </div>
+      </section>
+
+      {/* Content */}
+      <section className="px-6 py-6 lg:px-10">
+        <div className="mx-auto max-w-360">
+          <div className="divide-y divide-ink/10">
+            <Section title="Information We Collect">
+              We may collect personal information such as name, phone number, email address and any
+              details submitted through enquiry forms or communication channels.
+            </Section>
+
+            <Section title="How We Use Information">
+              The information collected is used to respond to enquiries, provide project updates,
+              improve user experience and share relevant communication related to the project.
+            </Section>
+
+            <Section title="Cookies & Analytics">
+              This website may use cookies and third-party analytics tools to understand user
+              behaviour, improve performance and enhance the browsing experience.
+            </Section>
+
+            <Section title="Data Protection">
+              We take reasonable steps to safeguard your personal information and prevent
+              unauthorized access, misuse or disclosure.
+            </Section>
+
+            <Section title="Third-Party Services">
+              The website may integrate third-party tools such as CRM platforms, marketing services
+              or analytics providers. These services operate under their own privacy policies.
+            </Section>
+
+            <Section title="User Consent">
+              By submitting your information on this website, you consent to the collection and use
+              of data in accordance with this policy.
+            </Section>
+
+            <Section title="Policy Updates">
+              This Privacy Policy may be updated from time to time without prior notice. Users are
+              encouraged to review this page periodically.
+            </Section>
+
+            <Section title="Contact">
+              For privacy related queries, please contact the official sales team through the
+              contact details provided on this website.
+            </Section>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-ink/10 px-6 py-6 lg:px-10">
+        <div className="mx-auto flex max-w-360 flex-col gap-2 text-[9px] uppercase tracking-[.14em] text-ink/40 sm:flex-row sm:items-center sm:justify-between">
+          <span>© 2026 Mojo Realty. All Rights Reserved.</span>
+          <span>CINQ by Raghava · Financial District, Hyderabad</span>
+        </div>
+      </footer>
+    </main>
   );
 }
 
-function LegalPage({
-  title,
-  eyebrow,
-  children,
-}: {
-  title: string;
-  eyebrow: string;
-  children: ReactNode;
-}) {
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border bg-midnight px-5 py-6 text-ivory">
-        <div className="mx-auto flex max-w-5xl items-center justify-between">
-          <Link to="/" className="brand-mark text-champagne">
-            <span className="block text-[.55em] tracking-[.25em]">BRIGADE</span>
-            <span className="block -mt-1 text-[.72em] tracking-[.02em]">Gateway</span>
-          </Link>
-          <Link
-            to="/"
-            className="text-xs uppercase tracking-[.16em] text-ivory/70 hover:text-champagne"
-          >
-            Back to website
-          </Link>
-        </div>
-      </header>
-      <article className="mx-auto max-w-3xl px-5 py-20 sm:px-8 lg:py-28">
-        <p className="eyebrow text-primary">{eyebrow}</p>
-        <h1 className="display-title mt-4 text-6xl sm:text-7xl">{title}</h1>
-        <div className="legal-copy mt-10 space-y-6 text-sm leading-8 text-muted-foreground">
+    <section className="py-7 sm:py-8">
+      <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)] sm:gap-12 lg:grid-cols-[260px_minmax(0,1fr)]">
+        <h2 className="display-title text-2xl font-light leading-tight text-midnight sm:text-3xl">
+          {title}
+        </h2>
+
+        <p className="max-w-3xl text-sm leading-7 text-ink-soft sm:text-base sm:leading-8">
           {children}
-        </div>
-      </article>
-    </main>
+        </p>
+      </div>
+    </section>
   );
 }

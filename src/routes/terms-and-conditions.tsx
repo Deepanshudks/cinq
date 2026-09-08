@@ -1,68 +1,118 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/terms-and-conditions")({
   head: () => ({
     meta: [
-      { title: "Terms & Conditions | Brigade Gateway Neopolis" },
+      { title: "Terms & Conditions | CINQ by Raghava" },
       {
         name: "description",
         content:
-          "Terms and conditions for the Brigade Gateway Neopolis informational website managed by Mojo Realty.",
+          "Terms and conditions for the CINQ by Raghava informational website managed by Mojo Realty.",
       },
-      { property: "og:title", content: "Terms & Conditions | Brigade Gateway Neopolis" },
+      {
+        property: "og:title",
+        content: "Terms & Conditions | CINQ by Raghava",
+      },
       {
         property: "og:description",
         content:
-          "Terms and conditions for the Brigade Gateway Neopolis informational website managed by Mojo Realty.",
+          "Terms and conditions for the CINQ by Raghava informational website managed by Mojo Realty.",
       },
     ],
   }),
-  component: Terms,
+  component: TermsAndConditions,
 });
 
-function Terms() {
+export default function TermsAndConditions() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border bg-midnight px-5 py-6 text-ivory">
-        <div className="mx-auto flex max-w-5xl items-center justify-between">
-          <Link to="/" className="brand-mark text-champagne">
-            <span className="block text-[.55em] tracking-[.25em]">BRIGADE</span>
-            <span className="block -mt-1 text-[.72em] tracking-[.02em]">Gateway</span>
-          </Link>
-          <Link
-            to="/"
-            className="text-xs uppercase tracking-[.16em] text-ivory/70 hover:text-champagne"
-          >
-            Back to website
-          </Link>
-        </div>
-      </header>
-      <article className="mx-auto max-w-3xl px-5 py-20 sm:px-8 lg:py-28">
-        <p className="eyebrow text-primary">Brigade Gateway Neopolis</p>
-        <h1 className="display-title mt-4 text-6xl sm:text-7xl">Terms &amp; Conditions</h1>
-        <div className="legal-copy mt-10 space-y-6 text-sm leading-8 text-muted-foreground">
-          <p>
-            This website is an informational website owned and managed by Mojo Realty, an authorised
-            channel partner registered under RERA ID: A04500004727. It is not the official website
-            of the developer.
-          </p>
-          <p>
-            All project names, trademarks, images, floor plans and descriptions belong to their
-            respective owners. Content is provided for general information and may be changed by the
-            respective developer without prior notice.
-          </p>
-          <p>
-            Pricing, availability, specifications, dimensions, approvals, timelines and other
-            project details should be independently confirmed with the authorised sales
-            representative before making any decision.
-          </p>
-          <p>
-            Enquiries submitted through this website are handled solely by Mojo Realty for the
-            purpose of responding to your request. Use of this website constitutes acceptance of
-            these terms.
+    <main className="min-h-screen bg-ivory text-ink">
+      <section className="border-b border-ink/10 bg-midnight px-6 py-8 text-ivory lg:px-10">
+        <div className="mx-auto max-w-360">
+          <p className="eyebrow mb-3 text-champagne">CINQ by Raghava</p>
+
+          <h1 className="display-title text-4xl font-light leading-none sm:text-5xl">
+            Terms &amp; Conditions
+          </h1>
+
+          <div className="mt-4 h-px w-16 bg-champagne/60" />
+
+          <p className="mt-5 max-w-3xl text-sm leading-7 text-ivory/55 sm:text-base sm:leading-8">
+            By accessing or using this website, you agree to the following terms and conditions
+            governing usage, content and information provided on this landing page.
           </p>
         </div>
-      </article>
+      </section>
+
+      <section className="px-6 py-6 lg:px-10">
+        <div className="mx-auto max-w-360">
+          <div className="divide-y divide-ink/10">
+            <Section title="Intellectual Property">
+              All content including text, images, graphics, logos and materials are owned by the
+              developer or licensors and protected under intellectual property laws. Unauthorized
+              copying, distribution or modification is prohibited.
+            </Section>
+
+            <Section title="Property Information">
+              Project specifications, pricing, availability and timelines are subject to change
+              without prior notice. Information displayed on this website is indicative and should
+              be verified with the official sales team.
+            </Section>
+
+            <Section title="User Responsibilities">
+              Users must provide accurate information when submitting enquiries and must not engage
+              in unlawful activities including hacking, spamming or misuse of the website.
+            </Section>
+
+            <Section title="Privacy & Data Usage">
+              Personal information submitted through the website may be used for communication,
+              marketing updates and service improvement in accordance with the Privacy Policy.
+            </Section>
+
+            <Section title="Disclaimer of Liability">
+              The company shall not be liable for any direct or indirect losses, damages or reliance
+              on information provided on this website.
+            </Section>
+
+            <Section title="Third-Party Links">
+              The website may contain links to external platforms. We do not control or assume
+              responsibility for third-party content or practices.
+            </Section>
+
+            <Section title="Modifications to Terms">
+              These terms may be revised at any time without prior notice. Continued use of the
+              website constitutes acceptance of updates.
+            </Section>
+
+            <Section title="Governing Law & Jurisdiction">
+              Any disputes arising from use of this website shall be governed by applicable
+              jurisdiction laws and resolved in the relevant courts.
+            </Section>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-ink/10 px-6 py-6 lg:px-10">
+        <div className="mx-auto flex max-w-360 flex-col gap-2 text-[9px] uppercase tracking-[.14em] text-ink/40 sm:flex-row sm:items-center sm:justify-between">
+          <span>© 2026 Mojo Realty. All Rights Reserved.</span>
+          <span>CINQ by Raghava · Financial District · Hyderabad</span>
+        </div>
+      </footer>
     </main>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="py-7 sm:py-8">
+      <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)] sm:gap-12 lg:grid-cols-[260px_minmax(0,1fr)]">
+        <h2 className="display-type text-2xl font-light leading-tight text-midnight sm:text-3xl">
+          {title}
+        </h2>
+
+        <p className="max-w-3xl text-sm leading-7 text-ink-soft sm:text-base sm:leading-8">
+          {children}
+        </p>
+      </div>
+    </section>
   );
 }
