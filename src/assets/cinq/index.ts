@@ -33,9 +33,12 @@ import cinqAerial from "./cinq-aerial.jpeg";
 import cinqTour1 from "./cinq-tour-1.mp4";
 import cinqTour2 from "./cinq-tour-2.mp4";
 
+import elevationNearBy from "./elevation.png";
+
 export const images = {
   hero,
   location,
+  elevationNearBy,
   masterPlan,
   tower2Plan,
   tower14Plan,

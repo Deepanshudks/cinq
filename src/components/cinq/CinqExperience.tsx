@@ -1,11 +1,11 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowRight, Check, Expand, MapPin, Play } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { images } from "@/assets/cinq";
 import {
-  amenities,
+  amenityLevels,
   highlights,
   locationHighlights,
   navigation,
@@ -32,6 +32,12 @@ export function CinqExperience() {
   const [viewer, setViewer] = useState<Viewer>(null);
   const [plan, setPlan] = useState(0);
   const [sent, setSent] = useState(false);
+
+  const reduceMotion = useReducedMotion();
+
+  const [active, setActive] = useState("stilt");
+
+  const current = amenityLevels.find((item) => item.id === active) || amenityLevels[0];
 
   const submitContact = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -167,9 +173,9 @@ export function CinqExperience() {
             />
             <motion.img
               {...reveal}
-              src={images.cinqAerial}
+              src={images.elevationNearBy}
               alt="Aerial view of CINQ by Raghava residential towers"
-              className="aspect-4/3 w-full object-cover"
+              className="aspect-4/3 w-full object-s"
               loading="lazy"
             />
           </div>
@@ -189,7 +195,314 @@ export function CinqExperience() {
         </div>
       </section>
 
-      <section id="amenities" className="bg-midnight py-24 text-ivory ">
+      <section
+        id="amenities"
+        className="relative overflow-hidden bg-midnight py-24 text-ivory lg:py-32"
+      >
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-1/2 top-0 h-150 w-150 -translate-x-1/2 rounded-full bg-champagne/5 blur-[140px]" />
+          <div className="absolute bottom-0 right-0 h-100 w-100 rounded-full bg-burgundy/20 blur-[120px]" />
+        </div>
+
+        <div className="relative mx-auto max-w-370 px-5 sm:px-8 lg:px-16">
+          <div className="flex flex-col gap-10 border-ivory/10  lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <SectionHeading
+                eyebrow="World-Class Facilities"
+                title="An Ensemble of Niceties"
+                copy="Every detail is conceived to make everyday life feel elevated, effortless and complete."
+                light
+              />
+            </div>
+
+            <div className="shrink-0 self-start lg:self-end">
+              <div className="flex items-center border border-champagne/25 bg-burgundy/40 px-6 py-5 backdrop-blur-md sm:px-7">
+                <div className="mr-5 h-12 w-px bg-champagne/40" />
+
+                <div>
+                  <p className="font-display text-4xl leading-none text-champagne sm:text-5xl">
+                    3 LAKH+
+                  </p>
+
+                  <p className="mt-2 max-w-55 text-[9px] font-semibold uppercase leading-4 tracking-[0.18em] text-ivory/55">
+                    Curated Luxury Amenities Overall
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="mt-14 grid grid-cols-3 border-y border-ivory/10"
+            role="tablist"
+            aria-label="CINQ amenity levels"
+          >
+            {amenityLevels.map((level) => {
+              const isActive = level.id === active;
+
+              return (
+                <button
+                  key={level.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActive(level.id)}
+                  className={[
+                    "group relative min-h-24 border-r border-ivory/10 px-4 py-5 text-left",
+                    "transition-all duration-500 last:border-r-0",
+                    isActive
+                      ? "bg-burgundy text-ivory"
+                      : "bg-transparent text-ivory/45 hover:bg-burgundy/30 hover:text-ivory",
+                  ].join(" ")}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="mt-2 font-display text-lg sm:text-2xl lg:text-3xl">
+                        {level.label}
+                      </h3>
+                    </div>
+
+                    <ArrowRight
+                      className={[
+                        "mt-1 hidden size-4 transition-all duration-500 sm:block",
+                        isActive
+                          ? "translate-x-0 text-champagne opacity-100"
+                          : "-translate-x-2 text-champagne opacity-0 group-hover:translate-x-0 group-hover:opacity-100",
+                      ].join(" ")}
+                    />
+                  </div>
+
+                  <span
+                    className={[
+                      "absolute bottom-0 left-0 h-0.5 bg-champagne transition-all duration-500",
+                      isActive ? "w-full" : "w-0 group-hover:w-full",
+                    ].join(" ")}
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current?.id}
+              initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -20 }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.6,
+                ease: "easeOut",
+              }}
+              className="mt-12"
+            >
+              <div className="grid gap-10 lg:grid-cols-[1.2fr_.8fr] lg:gap-14">
+                <div className="group relative overflow-hidden bg-burgundy">
+                  <motion.img
+                    src={current?.image}
+                    alt={`${current?.label} amenities at CINQ by Raghava`}
+                    initial={reduceMotion ? { scale: 1 } : { scale: 1.04 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      duration: reduceMotion ? 0 : 1.1,
+                      ease: "easeOut",
+                    }}
+                    className="h-64 w-full object-cover transition-transform duration-1200 group-hover:scale-[1.025] sm:h-125 lg:h-120"
+                  />
+
+                  <div className="absolute inset-0 bg-linear-to-t from-midnight/90 via-midnight/10 to-transparent" />
+
+                  <div className="absolute inset-x-6 bottom-6 sm:inset-x-8 sm:bottom-8">
+                    <p className="eyebrow text-champagne">{current?.subtitle}</p>
+
+                    <h3 className="mt-2 font-display text-4xl leading-none text-ivory sm:text-5xl lg:text-6xl">
+                      {current?.label}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-center">
+                  <div>
+                    <p className="eyebrow text-champagne">{current?.subtitle}</p>
+
+                    <h3 className="display-title mt-4 text-5xl leading-[0.95] text-ivory sm:text-6xl">
+                      {current?.title}
+                    </h3>
+
+                    <div className="mt-7 h-px w-14 bg-champagne/50" />
+
+                    <p className="mt-7 max-w-lg text-sm leading-7 text-ivory/60">
+                      Every level has been envisioned as a destination of its own — blending
+                      wellness, recreation, social experiences and tranquil landscapes into a
+                      seamless luxury lifestyle.
+                    </p>
+                  </div>
+
+                  <div className="mt-10 border-t border-ivory/10 pt-6">
+                    <p className="font-display text-4xl text-champagne">
+                      {String(current?.amenities?.length ?? 0).padStart(2, "0")}
+                    </p>
+
+                    <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-ivory/40">
+                      Curated Experiences
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-12 border-t border-ivory/10">
+                <div className="grid grid-cols-2 lg:grid-cols-3">
+                  {current?.amenities.map((item, index) => (
+                    <motion.div
+                      key={item}
+                      initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                      }}
+                      transition={{
+                        duration: reduceMotion ? 0 : 0.35,
+                        delay: reduceMotion ? 0 : index * 0.025,
+                      }}
+                      className="group flex min-h-17 items-center gap-4 border-b border-r border-ivory/10 px-4 py-4 transition-colors duration-300 hover:bg-burgundy/50 sm:px-5"
+                    >
+                      <span className="text-sm leading-5 text-ivory/70 transition-colors group-hover:text-ivory">
+                        {item}
+                      </span>
+
+                      <ArrowRight className="ml-auto size-3 shrink-0 -translate-x-2 text-champagne opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* <section id="amenities" className="relative overflow-hidden bg-midnight py-24 text-ivory">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,215,160,0.08),transparent_55%)]" />
+
+        <div className="relative mx-auto max-w-370 px-5 sm:px-8 lg:px-16">
+          <div className="flex flex-col gap-8 border-b border-ivory/15 pb-12 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-3xl">
+              <SectionHeading
+                eyebrow="World-Class Facilities"
+                title="An Ensemble of Niceties"
+                copy="Every detail is conceived to make everyday life feel elevated, effortless and complete."
+                light
+              />
+            </div>
+
+            <div className="shrink-0 border border-champagne/30 bg-burgundy/40 px-6 py-5 backdrop-blur-sm">
+              <div className="flex items-center gap-4">
+                <div className="h-10 w-px bg-champagne/40" />
+
+                <div>
+                  <p className="font-display text-4xl leading-none text-champagne">3 LAKH+</p>
+
+                  <p className="eyebrow mt-2 text-ivory/60">Curated Luxury Amenities Overall</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-20 grid grid-cols-3 border-y border-ivory/15">
+            {amenityLevels.map((level) => {
+              const isActive = level.id === active;
+
+              return (
+                <button
+                  key={level.id}
+                  onClick={() => setActive(level.id)}
+                  className={`group relative border-r border-ivory/10 px-4 py-6 transition-all duration-500 last:border-none ${
+                    isActive ? "bg-burgundy text-ivory" : "hover:bg-burgundy/40 text-ivory/50"
+                  }`}
+                >
+                  <h3 className="mt-2 font-display text-xl sm:text-2xl lg:text-3xl">
+                    {level.label}
+                  </h3>
+
+                  <span
+                    className={`absolute bottom-0 left-0 h-0.5 bg-champagne transition-all duration-500 ${
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current?.id}
+              initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -25 }}
+              transition={{ duration: reduceMotion ? 0 : 0.65 }}
+              className="mt-14 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center"
+            >
+              <motion.div
+                initial={reduceMotion ? { opacity: 1 } : { scale: 1.03 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: reduceMotion ? 0 : 0.8 }}
+                className="group relative overflow-hidden rounded-[2rem]"
+              >
+                <img
+                  src={current?.image}
+                  alt={current?.label}
+                  className="h-137.5 w-full object-cover transition-transform duration-1500 group-hover:scale-105"
+                />
+
+                <div className="absolute inset-0 bg-linear-to-t from-midnight via-transparent to-transparent" />
+
+                <div className="absolute bottom-8 left-8 right-8">
+                  <p className="eyebrow text-champagne">{current?.subtitle}</p>
+
+                  <h3 className="mt-3 font-display text-4xl text-ivory lg:text-5xl">
+                    {current?.label}
+                  </h3>
+                </div>
+              </motion.div>
+
+              <div>
+                <p className="eyebrow text-champagne">{current?.subtitle}</p>
+
+                <h3 className="display-title mt-4 text-5xl text-ivory lg:text-5xl">
+                  {current?.title}
+                </h3>
+
+                <p className="mt-6 text-sm leading-8 text-ivory/65">
+                  Every level has been envisioned as a destination of its own — blending wellness,
+                  recreation, social experiences and tranquil landscapes into a seamless luxury
+                  lifestyle.
+                </p>
+
+                <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-5">
+                  {current?.amenities.map((item, index) => (
+                    <motion.div
+                      key={item}
+                      initial={reduceMotion ? { opacity: 1 } : { opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        duration: reduceMotion ? 0 : 0.35,
+                        delay: reduceMotion ? 0 : index * 0.03,
+                      }}
+                      className="flex items-start gap-3 border-b border-ivory/10 pb-3"
+                    >
+                      <p className="text-sm leading-6 text-ivory/80">{item}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section> */}
+
+      {/* <section id="amenities" className="bg-midnight py-24 text-ivory ">
         <div className="mx-auto max-w-360 px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="World-Class Facilities"
@@ -212,7 +525,7 @@ export function CinqExperience() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section id="plans" className="bg-warm-white py-24">
         <div className="mx-auto max-w-360 px-5 sm:px-8 lg:px-10">
