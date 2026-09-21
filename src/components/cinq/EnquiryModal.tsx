@@ -60,16 +60,14 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
     try {
       setLoading(true);
 
-      const sheetForm = new URLSearchParams();
-
-      sheetForm.append("name", formData.name);
-      sheetForm.append("email", formData.email);
-      sheetForm.append("phone", formData.phone);
-      sheetForm.append("preferredDate", formData.preferredDate);
-
       const sheetPromise = fetch(import.meta.env.VITE_GOOGLE_SHEET_URL, {
         method: "POST",
-        body: sheetForm,
+        body: new URLSearchParams({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          preferredDate: formData.preferredDate,
+        }),
         mode: "no-cors",
       })
         .then(() => true)
