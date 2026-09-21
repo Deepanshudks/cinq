@@ -124,7 +124,8 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
           relative
           w-full
           max-w-2xl
-          max-h-[94vh]
+          max-h-[96vh]
+          
           overflow-hidden
           border
           border-champagne/20
@@ -190,6 +191,7 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
             grid
             max-h-[94vh]
             overflow-y-auto
+            overflow-x-hidden
           "
         >
           <section
@@ -577,12 +579,14 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
                   className="
                     group
                     relative
-                    mt-2
+                    mx-auto
+                    py-4
                     h-14
-                    w-full
+                    w-[90%]
                     overflow-hidden
                     border
                     border-champagne
+                    cinq-premium-btn
                     bg-champagne
                     text-burgundy
                     transition-colors
@@ -600,6 +604,7 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
                       flex
                       items-center
                       justify-center
+                      
                       gap-4
                     "
                   >

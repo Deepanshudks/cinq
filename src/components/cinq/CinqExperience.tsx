@@ -104,17 +104,17 @@ export function CinqExperience() {
             transition={{ duration: 0.9, delay: 0.25 }}
             className="max-w-3xl text-ivory"
           >
-            <p className="eyebrow text-champagne">
-              CINQ by Raghava&nbsp; | &nbsp;TS RERA: P02400009341
+            <p className="eyebrow  text-white! sm:text-champagne! leading-relaxed">
+              CINQ by Raghava <span className="mx-1">|</span> TS RERA: P02400009341
             </p>
 
-            <h1 className="display-title mt-4 max-w-3xl text-6xl sm:text-8xl lg:text-[8.5rem]">
+            <h1 className="display-title mt-6 max-w-3xl text-5xl leading-[0.95] sm:text-8xl lg:text-[8.5rem]">
               Crafted for
               <br />
               <em>fine living.</em>
             </h1>
 
-            <p className="mt-7 max-w-xl text-sm uppercase tracking-[.2em] text-ivory/90">
+            <p className="mt-7 max-w-xl text-sm uppercase tracking-widest text-ivory">
               Luxury 4 BHK Residences in Financial District, Hyderabad, starting from ₹3.66 Cr*
               onwards
             </p>
@@ -1003,7 +1003,12 @@ export function CinqExperience() {
       </footer>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-champagne/30 bg-midnight p-3 lg:hidden">
-        <Button variant="luxury" size="lg" className="w-full" onClick={openEnquiry}>
+        <Button
+          variant="luxury"
+          size="lg"
+          className="w-full cinq-premium-btn"
+          onClick={openEnquiry}
+        >
           Book a Visit
         </Button>
       </div>
