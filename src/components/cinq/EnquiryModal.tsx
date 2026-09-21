@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { ArrowRight, Check, Mail, MessageSquare, Phone, User, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, CalendarDays, Check, Mail, MessageSquare, Phone, User, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -10,11 +10,13 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const dateInputRef = useRef<HTMLInputElement>(null);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    message: "",
+    preferredDate: "",
   });
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
       sheetForm.append("name", formData.name);
       sheetForm.append("email", formData.email);
       sheetForm.append("phone", formData.phone);
-      sheetForm.append("message", formData.message);
+      sheetForm.append("preferredDate", formData.preferredDate);
 
       const sheetPromise = fetch(import.meta.env.VITE_GOOGLE_SHEET_URL!, {
         method: "POST",
@@ -121,7 +123,7 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
         className="
           relative
           w-full
-          max-w-270
+          max-w-2xl
           max-h-[94vh]
           overflow-hidden
           border
@@ -536,63 +538,34 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
                   </label>
 
                   <label className="group">
-                    <span
-                      className="
-                        text-[8px]
-                        font-semibold
-                        uppercase
-                        tracking-[0.22em]
-                        text-warm-gold/60
-                        transition-colors
-                        group-focus-within:text-champagne
-                      "
-                    >
-                      Message
+                    <span className=" text-[8px] font-semibold uppercase tracking-[0.22em] text-warm-gold/60 transition-colors group-focus-within:text-champagne">
+                      Preferred Date for Visit
                     </span>
 
                     <div className="relative mt-3">
-                      <MessageSquare
-                        className="
-                          absolute
-                          left-0
-                          top-2
-                          size-3.5
-                          text-warm-gold/45
-                          transition-colors
-                          group-focus-within:text-champagne
-                        "
-                      />
+                      <button
+                        type="button"
+                        aria-label="Select preferred visit date"
+                        onClick={() => dateInputRef.current?.showPicker()}
+                        className=" absolute left-0 top-1/2 z-10 -translate-y-1/2 text-warm-gold/45 transition-colors hover:text-champagne group-focus-within:text-champagne"
+                      >
+                        <CalendarDays className="size-3.5" />
+                      </button>
 
-                      <textarea
-                        name="message"
-                        rows={3}
-                        value={formData.message}
+                      <input
+                        ref={dateInputRef}
+                        required
+                        name="preferredDate"
+                        type="date"
+                        min={new Date().toISOString().split("T")[0]}
+                        value={formData.preferredDate}
                         onChange={(event) =>
                           setFormData((current) => ({
                             ...current,
-                            message: event.target.value,
+                            preferredDate: event.target.value,
                           }))
                         }
-                        placeholder="Tell us how we can assist you"
-                        className="
-                          w-full
-                          resize-none
-                          border-0
-                          border-b
-                          border-champagne/15
-                          bg-transparent
-                          py-2
-                          pl-7
-                          pr-2
-                          text-[13px]
-                          leading-6
-                          text-ivory
-                          outline-none
-                          transition-colors
-                          duration-200
-                          placeholder:text-ivory/25
-                          focus:border-champagne
-                        "
+                        className=" w-full border-0 border-b border-champagne/15 bg-transparent py-3 pl-7 pr-2 text-[13px]  text-ivory outline-none transition-colors duration-200 focus:border-champagne scheme-dark [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none [&::-webkit-datetime-edit]:text-ivory/40 [&::-webkit-datetime-edit-fields-wrapper]:text-ivory/40"
                       />
                     </div>
                   </label>

@@ -42,11 +42,11 @@ export const highlights = [
     "Limited residences per floor create a more private and exclusive living experience.",
   ],
   [
-    "The Oasis",
+    "2.5+ Lakh Sq. Ft. of Curated Leisure",
     "A distinctive private amenity destination bringing recreation, relaxation and lifestyle experiences to the towers.",
   ],
   [
-    "Sky Level",
+    "Sky Level Amenities",
     "A breathtaking elevated lifestyle space featuring views and amenities above the city.",
   ],
 ];

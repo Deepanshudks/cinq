@@ -42,38 +42,26 @@ export default function FloatingWhatsapp({ isHidden = false }: { isHidden?: bool
     >
       <div className="relative">
         <motion.span
-          className="
-            absolute
-            inset-0
-            rounded-full
-            border
-            border-champagne/50
-          "
+          className=" absolute inset-0 rounded-full border-2  border-[#178B43]/70"
           animate={{
-            scale: [1, 1.12, 1.3, 1.45],
-            opacity: [0.4, 0.28, 0.12, 0],
+            scale: [1, 1.35, 1.7],
+            opacity: [0.55, 0.2, 0],
           }}
           transition={{
-            duration: 3.2,
+            duration: 2.4,
             repeat: Infinity,
             ease: "easeOut",
           }}
         />
 
         <motion.span
-          className="
-            absolute
-            -inset-1
-            rounded-full
-            border
-            border-champagne/20
-          "
+          className=" absolute inset-0 rounded-full  bg-[#178B43]/20 blur-md"
           animate={{
-            scale: [1, 1.08, 1],
-            opacity: [0.2, 0.5, 0.2],
+            scale: [1, 1.18, 1],
+            opacity: [0.45, 0.15, 0.45],
           }}
           transition={{
-            duration: 2.8,
+            duration: 2.4,
             repeat: Infinity,
             ease: "easeInOut",
           }}
@@ -84,7 +72,7 @@ export default function FloatingWhatsapp({ isHidden = false }: { isHidden?: bool
             absolute
             -inset-3
             rounded-full
-            bg-champagne/10
+            bg-[#178B43]/15
             blur-2xl
           "
           animate={{
@@ -100,40 +88,35 @@ export default function FloatingWhatsapp({ isHidden = false }: { isHidden?: bool
 
         <motion.div
           animate={{
-            scale: [1, 1.035, 1],
-
-            backgroundColor: ["#0b192a", "#101d2d", "#0b192a"],
-
+            scale: [1, 1.08, 1],
+            backgroundColor: ["#178B43", "#1FA653", "#178B43"],
             boxShadow: [
-              "0 10px 35px rgba(0,0,0,0.35)",
-              "0 16px 45px rgba(212,175,55,0.20)",
-              "0 10px 35px rgba(0,0,0,0.35)",
+              "0 8px 25px rgba(23, 139, 67, 0.30)",
+              "0 14px 42px rgba(23, 139, 67, 0.50)",
+              "0 8px 25px rgba(23, 139, 67, 0.30)",
             ],
           }}
           transition={{
-            duration: 2.6,
+            duration: 2.2,
             repeat: Infinity,
-            repeatType: "mirror",
             ease: "easeInOut",
           }}
           whileHover={{
-            scale: 1.1,
+            scale: 1.12,
             y: -4,
-            boxShadow: "0 20px 60px rgba(212,175,55,0.38)",
+            boxShadow: "0 20px 55px rgba(23, 139, 67, 0.55)",
           }}
           whileTap={{
             scale: 0.92,
             y: 0,
           }}
-          className="  relative flex size-14 items-center justify-center rounded-full border border-champagne/70 transition-colors duration-500 group-hover:border-champagne sm:size-16 "
+          className=" relative z-10 flex size-14 items-center justify-center rounded-full border border-[#178B43] sm:size-16"
         >
           <motion.span
             className="
               absolute
               inset-1.5
-              rounded-full
-              border
-              border-champagne/15
+              rounded-full border border-white/20
             "
             animate={{
               scale: [0.98, 1, 0.98],
@@ -159,7 +142,7 @@ export default function FloatingWhatsapp({ isHidden = false }: { isHidden?: bool
               repeatType: "mirror",
               ease: "easeInOut",
             }}
-            className=" relative z-10 size-6 text-champagne transition-all duration-200 group-hover:scale-110 group-hover:text-[#e8c86a] sm:size-7 "
+            className=" relative z-10 size-6  text-white transition-transform duration-200 group-hover:scale-110 sm:size-7 "
           >
             <path d="M19.11 17.27c-.28-.14-1.65-.81-1.91-.9-.26-.1-.45-.14-.64.14-.19.28-.73.9-.9 1.08-.17.19-.33.21-.61.07-.28-.14-1.2-.44-2.28-1.4-.84-.75-1.41-1.67-1.57-1.95-.17-.28-.02-.43.12-.57.13-.13.28-.33.42-.49.14-.17.19-.28.28-.47.09-.19.05-.36-.02-.5-.07-.14-.64-1.55-.88-2.13-.23-.56-.46-.48-.64-.49l-.54-.01c-.19 0-.5.07-.76.36-.26.28-1 1-1 2.44s1.02 2.83 1.16 3.02c.14.19 2 3.05 4.85 4.27.68.29 1.21.46 1.62.59.68.22 1.3.19 1.79.11.55-.08 1.65-.67 1.88-1.32.23-.65.23-1.2.16-1.32-.07-.12-.26-.19-.54-.33z" />
 
@@ -167,7 +150,7 @@ export default function FloatingWhatsapp({ isHidden = false }: { isHidden?: bool
           </motion.svg>
         </motion.div>
 
-        <div className=" pointer-events-none absolute right-full top-1/2 mr-4 hidden -translate-y-1/2 translate-x-2 whitespace-nowrap border border-champagne/20 bg-midnight/95 px-4 py-2.5 text-[9px] font-medium uppercase tracking-[0.22em] text-champagne opacity-0 shadow-xl backdrop-blur-md transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100 sm:block">
+        <div className=" pointer-events-none absolute right-full top-1/2 mr-4 hidden -translate-y-1/2 translate-x-2 whitespace-nowrap border border-[#178B43]/25 bg-midnight/95 px-4 py-2.5 text-[9px] font-medium uppercase tracking-[0.22em] text-[#178B43] opacity-0 shadow-xl backdrop-blur-md transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100 sm:block">
           Chat with us
         </div>
       </div>

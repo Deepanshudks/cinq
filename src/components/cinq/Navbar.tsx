@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { navigation } from "@/data/projectData";
 
@@ -60,12 +60,16 @@ export function Navbar({ onEnquire }: { onEnquire: () => void }) {
         <div className="mx-auto flex h-20 max-w-360 items-center justify-between px-5 sm:px-8 lg:px-10">
           <button
             onClick={() => go("Overview")}
-            className="brand-mark text-champagne"
+            className="brand-mark text-champagne text-left"
             aria-label="CINQ home"
           >
-            <span className="block text-[.9em] tracking-[.28em]">CINQ</span>
+            <span className="block text-[0.9em] font-medium tracking-[0.28em]">CINQ</span>
 
-            <span className="-mt-1 block text-[.48em] tracking-[.22em]">RAGHAVA</span>
+            <span className="-mt-1 block text-[0.48em] font-medium tracking-[0.22em]">RAGHAVA</span>
+
+            <span className="mt-2 block border-t border-champagne/30 pt-1.5 font-sans text-[0.24em] font-medium uppercase tracking-[0.16em] text-ivory/70">
+              Authorized Sales Partner
+            </span>
           </button>
 
           <nav className="hidden items-center gap-6 xl:flex" aria-label="Main navigation">
@@ -77,8 +81,11 @@ export function Navbar({ onEnquire }: { onEnquire: () => void }) {
           </nav>
 
           <div className="hidden lg:block">
-            <Button variant="luxuryOutline" className="cinq-premium-btn" onClick={onEnquire}>
-              Book a Visit
+            <Button variant="luxury" onClick={onEnquire} className="cinq-premium-btn group ">
+              <span className="flex items-center justify-center gap-2.5">
+                Book a Visit
+                <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
             </Button>
           </div>
 

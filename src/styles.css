@@ -288,33 +288,54 @@ html {
   isolation: isolate;
   overflow: visible;
 
+  min-width: 9.5rem;
+  min-height: 2.5rem;
+
+  border: 1px solid #e6b96a !important;
+  border-radius: 2px;
+
+  background: linear-gradient(135deg, #f2cf86 0%, #dca957 45%, #c88a3d 100%) !important;
+
+  color: #35100f !important;
+
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.18) inset,
+    0 0 28px rgba(230, 185, 106, 0.28);
+
   transform: translateZ(0);
   will-change: transform, box-shadow;
 
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.678),
-    0 0 0 rgba(212, 175, 55, 0);
+  animation: cinqCtaPulse 2.6s ease-in-out infinite;
 
   transition:
-    transform 5ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 300ms ease,
+    color 300ms ease,
+    box-shadow 300ms ease;
 }
 
 .cinq-premium-btn::before {
   content: "";
   position: absolute;
   inset: -8px;
+
   z-index: -1;
 
   border-radius: inherit;
-  background: rgba(228, 150, 34, 0.395);
 
-  filter: blur(8px);
-  opacity: 0.18;
+  background: #e6b96a;
 
-  transform: scale(0.88);
+  opacity: 0.22;
+  filter: blur(16px);
 
-  animation: cinqButtonGlow 2s ease-in-out infinite;
+  animation: cinqCtaGlow 2.6s ease-in-out infinite;
 
   pointer-events: none;
 }
@@ -322,108 +343,109 @@ html {
 .cinq-premium-btn::after {
   content: "";
   position: absolute;
+
   inset: -4px;
+
   z-index: -1;
 
-  border: 1px solid rgba(212, 175, 55, 0.45);
+  border: 1px solid rgba(230, 185, 106, 0.7);
   border-radius: inherit;
 
   opacity: 0;
 
-  animation: cinqButtonRing 2s ease-out infinite;
+  animation: cinqCtaRing 2.6s ease-out infinite;
 
   pointer-events: none;
 }
 
-.cinq-premium-btn {
-  animation: cinqButtonFloat 3s ease-in-out infinite;
-}
-
 .cinq-premium-btn:hover {
-  transform: translateY(-4px) scale(1.045);
+  transform: translateY(-3px) scale(1.06);
+
+  background: linear-gradient(135deg, #ffe3a1 0%, #edbd68 50%, #d99a45 100%) !important;
+
+  color: #2d0b0a !important;
 
   box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.22),
-    0 8px 30px rgba(212, 175, 55, 0.24);
+    0 16px 38px rgba(0, 0, 0, 0.32),
+    0 0 35px rgba(230, 185, 106, 0.48),
+    0 0 70px rgba(230, 185, 106, 0.18);
 }
 
 .cinq-premium-btn:hover::before {
   opacity: 0.42;
-  transform: scale(1);
 }
 
 .cinq-premium-btn:active {
-  transform: translateY(-1px) scale(0.965);
+  transform: translateY(0) scale(0.97);
 
-  transition-duration: 120ms;
-
-  box-shadow:
-    0 7px 18px rgba(0, 0, 0, 0.2),
-    0 3px 12px rgba(212, 175, 55, 0.18);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.28);
 }
 
 .cinq-premium-btn:focus-visible {
-  outline: 3px solid rgba(212, 175, 55, 0.8);
+  outline: 2px solid #f2cf86;
   outline-offset: 5px;
 }
 
 .cinq-premium-btn svg {
   transition:
-    transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 300ms ease;
 }
 
 .cinq-premium-btn:hover svg {
   transform: translateX(5px);
 }
-.cinq-premium-btn:hover {
-  transform: translateY(-4px) scale(1.045);
 
-  color: #2d1809;
-
-  box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.22),
-    0 8px 30px rgba(212, 175, 55, 0.24);
-}
-
-@keyframes cinqButtonFloat {
+@keyframes cinqCtaPulse {
   0%,
   100% {
-    transform: translateY(0) scale(1.1);
+    transform: translateY(0) scale(1);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.28),
+      0 0 0 1px rgba(255, 255, 255, 0.18) inset,
+      0 0 28px rgba(230, 185, 106, 0.25);
   }
 
   50% {
-    transform: translateY(-1.5px) scale(1.018);
+    transform: translateY(-2px) scale(1.045);
+    box-shadow:
+      0 14px 32px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+      0 0 42px rgba(230, 185, 106, 0.42);
   }
 }
 
-@keyframes cinqButtonGlow {
+@keyframes cinqCtaGlow {
   0%,
   100% {
-    opacity: 0.14;
-    transform: scale(0.8);
+    opacity: 0.16;
+    transform: scale(0.92);
   }
 
   50% {
-    opacity: 0.3;
-    transform: scale(1.12);
+    opacity: 0.38;
+    transform: scale(1.08);
   }
 }
 
-@keyframes cinqButtonRing {
+@keyframes cinqCtaRing {
   0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  20% {
     opacity: 0.45;
-    transform: scale(0.98);
   }
 
   70% {
     opacity: 0;
-    transform: scale(1.13);
+    transform: scale(1.16);
   }
 
   100% {
     opacity: 0;
-    transform: scale(1.13);
+    transform: scale(1.2);
   }
 }
 
@@ -436,9 +458,5 @@ html {
 
   .cinq-premium-btn {
     transition: none;
-  }
-
-  .cinq-premium-btn:hover {
-    transform: translateY(-2px);
   }
 }

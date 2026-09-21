@@ -1,6 +1,6 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowDown, ArrowRight, Check, Expand, MapPin, Play } from "lucide-react";
+import { ArrowDown, ArrowRight, CalendarDays, Check, Expand, MapPin, Play } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { images } from "@/assets/cinq";
@@ -32,6 +32,8 @@ export function CinqExperience() {
   const [viewer, setViewer] = useState<Viewer>(null);
   const [plan, setPlan] = useState(0);
   const [sent, setSent] = useState(false);
+
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
   const reduceMotion = useReducedMotion();
 
@@ -102,7 +104,9 @@ export function CinqExperience() {
             transition={{ duration: 0.9, delay: 0.25 }}
             className="max-w-3xl text-ivory"
           >
-            <p className="eyebrow text-champagne">CINQ by Raghava</p>
+            <p className="eyebrow text-champagne">
+              CINQ by Raghava&nbsp; | &nbsp;TS RERA: P02400009341
+            </p>
 
             <h1 className="display-title mt-4 max-w-3xl text-6xl sm:text-8xl lg:text-[8.5rem]">
               Crafted for
@@ -110,8 +114,9 @@ export function CinqExperience() {
               <em>fine living.</em>
             </h1>
 
-            <p className="mt-7 max-w-xl text-sm uppercase tracking-[.2em] text-ivory/80">
-              Luxury 4 BHK Residences in Financial District, Hyderabad
+            <p className="mt-7 max-w-xl text-sm uppercase tracking-[.2em] text-ivory/90">
+              Luxury 4 BHK Residences in Financial District, Hyderabad, starting from ₹3.66 Cr*
+              onwards
             </p>
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-champagne">
               <span>61 Floors</span>
@@ -125,6 +130,7 @@ export function CinqExperience() {
               </Button>
               <Button
                 variant="luxuryOutline"
+                className="hover:text-[#3F171F]!"
                 size="lg"
                 onClick={() =>
                   document.getElementById("highlights")?.scrollIntoView({ behavior: "smooth" })
@@ -146,7 +152,7 @@ export function CinqExperience() {
       </section>
 
       <section className="bg-burgundy text-ivory">
-        <div className="mx-auto grid max-w-360 grid-cols-2 px-5 py-14 sm:px-8 lg:grid-cols-4 lg:px-10 lg:py-20">
+        <div className="mx-auto grid max-w-360 grid-cols-2 px-5 py-8 sm:px-8 lg:grid-cols-4 lg:px-10">
           {stats.map((item, i) => (
             <motion.div
               {...reveal}
@@ -163,7 +169,7 @@ export function CinqExperience() {
         </div>
       </section>
 
-      <section id="highlights" className="bg-ivory py-24">
+      <section id="highlights" className="bg-ivory py-14">
         <div className="mx-auto max-w-360  px-5 sm:px-8 lg:px-10">
           <div className="grid items-center  gap-10 lg:grid-cols-[.8fr_1.2fr]">
             <SectionHeading
@@ -195,10 +201,7 @@ export function CinqExperience() {
         </div>
       </section>
 
-      <section
-        id="amenities"
-        className="relative overflow-hidden bg-midnight py-24 text-ivory lg:py-32"
-      >
+      <section id="amenities" className="relative overflow-hidden bg-midnight py-14 text-ivory ">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-1/2 top-0 h-150 w-150 -translate-x-1/2 rounded-full bg-champagne/5 blur-[140px]" />
           <div className="absolute bottom-0 right-0 h-100 w-100 rounded-full bg-burgundy/20 blur-[120px]" />
@@ -215,7 +218,7 @@ export function CinqExperience() {
               />
             </div>
 
-            <div className="shrink-0 self-start lg:self-end">
+            <div className="shrink-0 self-start lg:self-center">
               <div className="flex items-center border border-champagne/25 bg-burgundy/40 px-6 py-5 backdrop-blur-md sm:px-7">
                 <div className="mr-5 h-12 w-px bg-champagne/40" />
 
@@ -382,152 +385,7 @@ export function CinqExperience() {
         </div>
       </section>
 
-      {/* <section id="amenities" className="relative overflow-hidden bg-midnight py-24 text-ivory">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,215,160,0.08),transparent_55%)]" />
-
-        <div className="relative mx-auto max-w-370 px-5 sm:px-8 lg:px-16">
-          <div className="flex flex-col gap-8 border-b border-ivory/15 pb-12 sm:flex-row sm:items-end sm:justify-between">
-            <div className="max-w-3xl">
-              <SectionHeading
-                eyebrow="World-Class Facilities"
-                title="An Ensemble of Niceties"
-                copy="Every detail is conceived to make everyday life feel elevated, effortless and complete."
-                light
-              />
-            </div>
-
-            <div className="shrink-0 border border-champagne/30 bg-burgundy/40 px-6 py-5 backdrop-blur-sm">
-              <div className="flex items-center gap-4">
-                <div className="h-10 w-px bg-champagne/40" />
-
-                <div>
-                  <p className="font-display text-4xl leading-none text-champagne">3 LAKH+</p>
-
-                  <p className="eyebrow mt-2 text-ivory/60">Curated Luxury Amenities Overall</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-20 grid grid-cols-3 border-y border-ivory/15">
-            {amenityLevels.map((level) => {
-              const isActive = level.id === active;
-
-              return (
-                <button
-                  key={level.id}
-                  onClick={() => setActive(level.id)}
-                  className={`group relative border-r border-ivory/10 px-4 py-6 transition-all duration-500 last:border-none ${
-                    isActive ? "bg-burgundy text-ivory" : "hover:bg-burgundy/40 text-ivory/50"
-                  }`}
-                >
-                  <h3 className="mt-2 font-display text-xl sm:text-2xl lg:text-3xl">
-                    {level.label}
-                  </h3>
-
-                  <span
-                    className={`absolute bottom-0 left-0 h-0.5 bg-champagne transition-all duration-500 ${
-                      isActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </button>
-              );
-            })}
-          </div>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={current?.id}
-              initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -25 }}
-              transition={{ duration: reduceMotion ? 0 : 0.65 }}
-              className="mt-14 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center"
-            >
-              <motion.div
-                initial={reduceMotion ? { opacity: 1 } : { scale: 1.03 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: reduceMotion ? 0 : 0.8 }}
-                className="group relative overflow-hidden rounded-[2rem]"
-              >
-                <img
-                  src={current?.image}
-                  alt={current?.label}
-                  className="h-137.5 w-full object-cover transition-transform duration-1500 group-hover:scale-105"
-                />
-
-                <div className="absolute inset-0 bg-linear-to-t from-midnight via-transparent to-transparent" />
-
-                <div className="absolute bottom-8 left-8 right-8">
-                  <p className="eyebrow text-champagne">{current?.subtitle}</p>
-
-                  <h3 className="mt-3 font-display text-4xl text-ivory lg:text-5xl">
-                    {current?.label}
-                  </h3>
-                </div>
-              </motion.div>
-
-              <div>
-                <p className="eyebrow text-champagne">{current?.subtitle}</p>
-
-                <h3 className="display-title mt-4 text-5xl text-ivory lg:text-5xl">
-                  {current?.title}
-                </h3>
-
-                <p className="mt-6 text-sm leading-8 text-ivory/65">
-                  Every level has been envisioned as a destination of its own — blending wellness,
-                  recreation, social experiences and tranquil landscapes into a seamless luxury
-                  lifestyle.
-                </p>
-
-                <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-5">
-                  {current?.amenities.map((item, index) => (
-                    <motion.div
-                      key={item}
-                      initial={reduceMotion ? { opacity: 1 } : { opacity: 0, x: -12 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{
-                        duration: reduceMotion ? 0 : 0.35,
-                        delay: reduceMotion ? 0 : index * 0.03,
-                      }}
-                      className="flex items-start gap-3 border-b border-ivory/10 pb-3"
-                    >
-                      <p className="text-sm leading-6 text-ivory/80">{item}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </section> */}
-
-      {/* <section id="amenities" className="bg-midnight py-24 text-ivory ">
-        <div className="mx-auto max-w-360 px-5 sm:px-8 lg:px-10">
-          <SectionHeading
-            eyebrow="World-Class Facilities"
-            title="An Ensemble of Niceties"
-            copy="Every detail is conceived to make everyday life feel elevated, effortless and complete."
-            light
-          />
-          <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {amenities.map(([title, copy], i) => (
-              <motion.article
-                {...reveal}
-                transition={{ duration: 0.6, delay: i * 0.01 }}
-                key={title}
-                className="group border border-ivory/15 bg-midnight/60 p-7 transition-colors hover:border-champagne/70 hover:bg-burgundy"
-              >
-                <span className="eyebrow text-champagne">0{i + 1}</span>
-                <h3 className="mt-16 font-display text-3xl">{title}</h3>
-                <p className="mt-3 text-sm text-ivory/60">{copy}</p>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
-      <section id="plans" className="bg-warm-white py-24">
+      <section id="plans" className="bg-warm-white py-14">
         <div className="mx-auto max-w-360 px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="CINQ Floor Plans"
@@ -602,7 +460,7 @@ export function CinqExperience() {
         </div>
       </section>
 
-      <section id="gallery" className="bg-burgundy py-24 text-ivory ">
+      <section id="gallery" className="bg-burgundy py-14 text-ivory ">
         <div className="mx-auto max-w-360 px-5 sm:px-8 lg:px-10">
           <SectionHeading eyebrow="Visual Tour" title="Grandeur in Every Element" light />
           <div className="mt-12 grid gap-4 lg:grid-cols-2">
@@ -655,7 +513,7 @@ export function CinqExperience() {
         </div>
       </section>
 
-      <section id="location" className="bg-ivory py-24 ">
+      <section id="location" className="bg-ivory py-14 ">
         <div className="mx-auto max-w-360 px-5 sm:px-8 lg:px-10">
           <div className="grid items-center gap-12 lg:grid-cols-[.85fr_1.15fr]">
             <SectionHeading
@@ -701,7 +559,7 @@ export function CinqExperience() {
         </div>
       </section>
 
-      <section id="about" className="bg-midnight py-24 text-ivory ">
+      <section id="about" className="bg-midnight py-20 text-ivory ">
         <div className="mx-auto grid max-w-360 gap-12 px-5 sm:px-8 lg:grid-cols-[.75fr_1.25fr] lg:px-10">
           <SectionHeading eyebrow="About Raghava" title="Crafting Fine Living" light />
           <div className="space-y-6 text-sm leading-8 text-ivory/70">
@@ -724,7 +582,7 @@ export function CinqExperience() {
         </div>
       </section>
 
-      <section id="contact" className="bg-copper px-5 py-20 sm:px-8 lg:py-28">
+      <section id="contact" className="bg-copper/60 px-5 py-14 sm:px-8 ">
         <div className="mx-auto grid max-w-360 gap-12 lg:grid-cols-[.8fr_1.2fr] lg:px-2">
           <div className="flex flex-col justify-center">
             <p className="eyebrow text-burgundy/75">Private Presentation</p>
@@ -921,41 +779,67 @@ export function CinqExperience() {
               <label className="group sm:col-span-2">
                 <span
                   className="
-              text-[9px]
-              font-semibold
-              uppercase
-              tracking-[0.2em]
-              text-warm-gold/70
-              transition-colors
-              group-focus-within:text-champagne
-            "
+      text-[9px]
+      font-semibold
+      uppercase
+      tracking-[0.2em]
+      text-warm-gold/70
+      transition-colors
+      group-focus-within:text-champagne
+    "
                 >
-                  Message
+                  Preferred Date for Visit
                 </span>
 
-                <textarea
-                  name="message"
-                  rows={3}
-                  placeholder="Tell us how we can assist you"
-                  className="
-              mt-2
-              w-full
-              resize-none
-              border-0
-              border-b
-              border-champagne/20
-              bg-transparent
-              px-0
-              py-3
-              text-sm
-              leading-6
-              text-ivory
-              outline-none
-              transition-colors
-              placeholder:text-ivory/30
-              focus:border-champagne
-            "
-                />
+                <div className="relative mt-2">
+                  <button
+                    type="button"
+                    aria-label="Select preferred visit date"
+                    onClick={() => dateInputRef.current?.showPicker()}
+                    className="
+        absolute
+        left-0
+        top-1/2
+        z-10
+        -translate-y-1/2
+        text-warm-gold/45
+        transition-colors
+        hover:text-champagne
+        group-focus-within:text-champagne
+      "
+                  >
+                    <CalendarDays className="size-3.5" />
+                  </button>
+
+                  <input
+                    ref={dateInputRef}
+                    required
+                    name="preferredDate"
+                    type="date"
+                    min={new Date().toISOString().split("T")[0]}
+                    className="
+        w-full
+        border-0
+        border-b
+        border-champagne/20
+        bg-transparent
+        py-3
+        pl-7
+        pr-2
+        text-sm
+        text-ivory
+        outline-none
+        transition-colors
+        duration-200
+        focus:border-champagne
+        scheme-dark
+        [&::-webkit-calendar-picker-indicator]:hidden
+        [&::-webkit-calendar-picker-indicator]:appearance-none
+        [&::-webkit-datetime-edit]:text-ivory/40
+        [&::-webkit-datetime-edit-fields-wrapper]:text-ivory/40
+      "
+                  />
+                </div>
               </label>
 
               <Button
@@ -1006,255 +890,6 @@ export function CinqExperience() {
           )}
         </div>
       </section>
-
-      {/* <section id="contact" className="bg-copper px-5 py-20 sm:px-8 lg:py-28">
-        <div className="mx-auto grid max-w-360 gap-12 lg:grid-cols-[.8fr_1.2fr] lg:px-2">
-          <div className="flex flex-col justify-center">
-            <p className="eyebrow text-champagne/75">Private Presentation</p>
-
-            <h2 className="display-title mt-4 text-6xl text-ivory sm:text-7xl">Make it yours.</h2>
-
-            <div className="mt-6 h-px w-12 bg-champagne/50" />
-
-            <p className="mt-6 max-w-md text-sm leading-7 text-ivory/55">
-              Leave your details and our team will help you discover CINQ by Raghava and arrange a
-              private presentation.
-            </p>
-
-            <p className="mt-8 text-[9px] font-semibold uppercase tracking-[0.25em] text-warm-gold/60">
-              Financial District · Hyderabad
-            </p>
-          </div>
-          {sent ? (
-            <div className="flex items-center gap-4 bg-midnight p-8 text-ivory">
-              <Check className="size-8 text-champagne" />
-              <div>
-                <p className="font-display text-3xl">Thank you.</p>
-                <p className="mt-2 text-sm text-ivory/65">
-                  Your enquiry has been prepared for the sales team.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <form
-              onSubmit={submitContact}
-              className="
-          grid
-          gap-7
-          border
-          border-champagne/15
-          bg-burgundy
-          p-7
-          sm:grid-cols-2
-          sm:p-10
-          lg:p-12
-        "
-            >
-              <label className="group">
-                <span
-                  className="
-              text-[9px]
-              font-semibold
-              uppercase
-              tracking-[0.2em]
-              text-warm-gold/65
-              transition-colors
-              group-focus-within:text-champagne
-            "
-                >
-                  Full Name
-                </span>
-
-                <input
-                  required
-                  name="name"
-                  autoComplete="name"
-                  placeholder="Your full name"
-                  className="
-              mt-2
-              border-0
-              border-b
-              border-champagne/15
-              bg-transparent
-              px-0
-              py-3
-              text-sm
-              text-ivory
-              outline-none
-              transition-colors
-              placeholder:text-ivory/25
-              focus:border-champagne
-            "
-                />
-              </label>
-
-              <label className="group">
-                <span
-                  className="
-              text-[9px]
-              font-semibold
-              uppercase
-              tracking-[0.2em]
-              text-warm-gold/65
-              transition-colors
-              group-focus-within:text-champagne
-            "
-                >
-                  Phone Number
-                </span>
-
-                <input
-                  required
-                  name="phone"
-                  type="tel"
-                  autoComplete="tel"
-                  pattern="[0-9+() -]{8,}"
-                  placeholder="Your phone number"
-                  className="
-              mt-2
-              border-0
-              border-b
-              border-champagne/15
-              bg-transparent
-              px-0
-              py-3
-              text-sm
-              text-ivory
-              outline-none
-              transition-colors
-              placeholder:text-ivory/25
-              focus:border-champagne
-            "
-                />
-              </label>
-
-              <label className="group sm:col-span-2">
-                <span
-                  className="
-              text-[9px]
-              font-semibold
-              uppercase
-              tracking-[0.2em]
-              text-warm-gold/65
-              transition-colors
-              group-focus-within:text-champagne
-            "
-                >
-                  Email
-                </span>
-
-                <input
-                  required
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="Your email address"
-                  className="
-              mt-2
-              border-0
-              border-b
-              border-champagne/15
-              bg-transparent
-              px-0
-              py-3
-              text-sm
-              text-ivory
-              outline-none
-              transition-colors
-              placeholder:text-ivory/25
-              focus:border-champagne
-            "
-                />
-              </label>
-
-              <label className="group sm:col-span-2">
-                <span
-                  className="
-              text-[9px]
-              font-semibold
-              uppercase
-              tracking-[0.2em]
-              text-warm-gold/65
-              transition-colors
-              group-focus-within:text-champagne
-            "
-                >
-                  Message
-                </span>
-
-                <textarea
-                  name="message"
-                  rows={3}
-                  placeholder="Tell us how we can assist you"
-                  className="
-              mt-2
-              w-full
-              resize-none
-              border-0
-              border-b
-              border-champagne/15
-              bg-transparent
-              px-0
-              py-3
-              text-sm
-              leading-6
-              text-ivory
-              outline-none
-              transition-colors
-              placeholder:text-ivory/25
-              focus:border-champagne
-            "
-                />
-              </label>
-
-              <Button
-                variant="luxury"
-                size="lg"
-                className="
-            group
-            h-14
-            w-full
-            border
-            border-champagne
-            bg-champagne
-            text-burgundy
-            transition-colors
-            duration-200
-            hover:bg-burgundy
-            hover:text-champagne
-            sm:col-span-2
-          "
-                type="submit"
-              >
-                <span className="flex items-center justify-center gap-4">
-                  Enquire Now
-                  <ArrowRight
-                    className="
-                size-4
-                transition-transform
-                duration-200
-                group-hover:translate-x-1
-              "
-                  />
-                </span>
-              </Button>
-
-              <p
-                className="
-            -mt-2
-            text-center
-            text-[8px]
-            leading-5
-            text-ivory/25
-            sm:col-span-2
-          "
-              >
-                By submitting this form, you agree to be contacted regarding CINQ by Raghava.
-              </p>
-            </form>
-          )}
-        </div>
-      </section> */}
 
       <footer className="bg-midnight px-5 pb-28 pt-16 text-ivory lg:pb-12">
         <div className="mx-auto max-w-360">
@@ -1319,7 +954,7 @@ export function CinqExperience() {
                 </p>
 
                 <p className="mt-3 text-[10px] leading-5 text-ivory/45">
-                  PROJECT RERA: 1234567890 · CHANNEL PARTNER RERA: A04500004727
+                  PROJECT RERA: P02400009341 · CHANNEL PARTNER RERA: A04500004727
                 </p>
 
                 <p className="mt-3 text-[10px] leading-5 text-ivory/45">

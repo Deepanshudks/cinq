@@ -17,7 +17,7 @@ export function SectionHeading({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.8 }}
-      className="max-w-2xl"
+      className="max-w-4xl"
     >
       <p className={`eyebrow ${light ? "text-champagne" : "text-primary"}`}>{eyebrow}</p>
       <h2
