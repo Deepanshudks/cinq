@@ -87,54 +87,74 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "width=device-width, initial-scale=1",
       },
 
-      /* Primary SEO */
       {
-        title: "CINQ by Raghava | Luxury 4 BHK Residences in Financial District, Hyderabad",
+        title: "CINQ by Raghava | Luxury 4 BHK Apartments in Financial District, Hyderabad",
       },
       {
         name: "description",
         content:
-          "CINQ by Raghava presents luxury 4 BHK residences in Hyderabad's Financial District, featuring five majestic towers, 61 floors, 7.19 acres and thoughtfully curated amenities.",
-      },
-      {
-        name: "author",
-        content: "Mojo Realty",
+          "Discover CINQ by Raghava, a landmark luxury residential development in Hyderabad's Financial District. Explore premium 4 BHK residences, five majestic towers, 61 floors, 7.19 acres and world-class amenities.",
       },
       {
         name: "robots",
-        content: "index, follow",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
       },
-
-      /* Brand / Browser */
+      {
+        name: "author",
+        content: "CINQ by Raghava",
+      },
       {
         name: "theme-color",
         content: "#07111F",
       },
 
-      /* Open Graph */
+      {
+        name: "geo.region",
+        content: "IN-TG",
+      },
+      {
+        name: "geo.placename",
+        content: "Hyderabad, Telangana, India",
+      },
+
+      {
+        property: "og:type",
+        content: "website",
+      },
       {
         property: "og:site_name",
         content: "CINQ by Raghava",
       },
       {
         property: "og:title",
-        content: "CINQ by Raghava | Luxury 4 BHK Residences in Financial District, Hyderabad",
+        content: "CINQ by Raghava | Luxury 4 BHK Apartments in Financial District, Hyderabad",
       },
       {
         property: "og:description",
         content:
-          "Discover CINQ by Raghava — five majestic towers, 61 floors and 7.19 acres of refined living in Hyderabad's Financial District.",
+          "Explore CINQ by Raghava — luxury 4 BHK residences across five majestic towers in Hyderabad's Financial District, with 61 floors, 7.19 acres and curated amenities.",
       },
       {
-        property: "og:type",
-        content: "website",
+        property: "og:url",
+        content: "https://cinqraghava.com/",
       },
       {
         property: "og:locale",
         content: "en_IN",
       },
+      {
+        property: "og:image",
+        content: "https://cinqraghava.com/og-image.jpg",
+      },
+      {
+        property: "og:image:alt",
+        content: "CINQ by Raghava luxury residences in Hyderabad Financial District",
+      },
+      {
+        property: "og:image:type",
+        content: "image/jpeg",
+      },
 
-      /* Twitter */
       {
         name: "twitter:card",
         content: "summary_large_image",
@@ -146,7 +166,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "twitter:description",
         content:
-          "Luxury 4 BHK residences in Hyderabad's Financial District. Five majestic towers across 7.19 acres.",
+          "Luxury 4 BHK residences in Hyderabad's Financial District. Five majestic towers, 61 floors and 7.19 acres of refined living.",
+      },
+      {
+        name: "twitter:image",
+        content: "https://cinqraghava.com/og-image.jpg",
+      },
+      {
+        name: "twitter:image:alt",
+        content: "CINQ by Raghava luxury residences in Hyderabad",
       },
     ],
 
@@ -157,16 +185,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
 
       {
+        rel: "canonical",
+        href: "https://cinqraghava.com/",
+      },
+
+      {
         rel: "icon",
         href: "/favicon.ico",
         type: "image/x-icon",
       },
 
       {
+        rel: "apple-touch-icon",
+        href: "/apple-touch-icon.png",
+      },
+
+      {
         rel: "preconnect",
         href: "https://fonts.googleapis.com",
       },
-
       {
         rel: "preconnect",
         href: "https://fonts.gstatic.com",
@@ -187,10 +224,35 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Residence",
+    name: "CINQ by Raghava",
+    description: "Luxury 4 BHK residences in Hyderabad's Financial District.",
+    url: "https://cinqraghava.com/",
+    image: ["https://cinqraghava.com/og-image.jpg"],
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Hyderabad",
+      addressRegion: "Telangana",
+      addressCountry: "IN",
+    },
+    containedInPlace: {
+      "@type": "Place",
+      name: "Financial District, Hyderabad",
+    },
+    numberOfRooms: 4,
+  };
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
       </head>
 
       <body>
