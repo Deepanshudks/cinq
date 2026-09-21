@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, phone, email, message } = req.body;
+    const { name, phone, email, preferredDate } = req.body;
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
