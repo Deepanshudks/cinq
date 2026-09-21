@@ -211,7 +211,7 @@ export default async function handler(req, res) {
                           </td>
                         </tr>
 
-                        <!-- Message -->
+                        <!-- Preferred Date -->
                         <tr>
                           <td
                             style="
@@ -221,7 +221,7 @@ export default async function handler(req, res) {
                               vertical-align:top;
                             "
                           >
-                            Message
+                            Preferred Date
                           </td>
 
                           <td
@@ -230,7 +230,7 @@ export default async function handler(req, res) {
                               line-height:1.6;
                             "
                           >
-                            ${message ? message.replace(/\n/g, "<br/>") : "No message provided"}
+                            ${preferredDate || "No preferred date provided"}
                           </td>
                         </tr>
 
