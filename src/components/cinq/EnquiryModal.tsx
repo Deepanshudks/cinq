@@ -67,11 +67,16 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
       sheetForm.append("phone", formData.phone);
       sheetForm.append("preferredDate", formData.preferredDate);
 
-      const sheetPromise = fetch(import.meta.env.VITE_GOOGLE_SHEET_URL!, {
+      const sheetPromise = fetch(import.meta.env.VITE_GOOGLE_SHEET_URL, {
         method: "POST",
         body: sheetForm,
         mode: "no-cors",
-      });
+      })
+        .then(() => true)
+        .catch((error) => {
+          console.error("Google Sheet submission failed:", error);
+          return false;
+        });
 
       const apiPromise = fetch(import.meta.env.VITE_EMAIL_API, {
         method: "POST",
@@ -79,23 +84,46 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+      })
+        .then(async (response) => {
+          if (!response.ok) {
+            console.error("Email API failed:", response.status);
+            return false;
+          }
+
+          return true;
+        })
+        .catch((error) => {
+          console.error("Email API submission failed:", error);
+          return false;
+        });
+
+      const [sheetSuccess, emailSuccess] = await Promise.all([sheetPromise, apiPromise]);
+
+      console.log({
+        sheetSuccess,
+        emailSuccess,
       });
 
-      await Promise.all([sheetPromise, apiPromise]);
+      if (sheetSuccess || emailSuccess) {
+        setSubmitted(true);
 
-      setSubmitted(true);
+        await navigate({
+          to: "/thank-you",
+        });
 
-      await navigate({
-        to: "/thank-you",
-      });
+        window.setTimeout(() => {
+          onClose();
+        }, 2000);
 
-      window.setTimeout(() => {
-        onClose();
-      }, 2000);
+        return;
+      }
+
+      toast.error("Unable to submit your enquiry. Please try again.");
     } catch (error) {
       console.error("CINQ enquiry submission failed:", error);
 
-      toast.error("Failed to send enquiry. Please try again.");
+      toast.error("Unable to submit your enquiry. Please try again.");
     } finally {
       setLoading(false);
     }
