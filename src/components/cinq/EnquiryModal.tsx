@@ -581,8 +581,9 @@ export function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => 
                     relative
                     mx-auto
                     py-4
+                    px-4!
                     h-14
-                    w-[90%]
+                    w-[98%]
                     overflow-hidden
                     border
                     border-champagne
